@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import {
   ChevronLeft,
   ChevronRight,
@@ -7,6 +8,7 @@ import {
   Menu,
   ShoppingBag,
   Twitter,
+  X,
   Youtube,
 } from 'lucide-react'
 
@@ -90,6 +92,17 @@ const gearWomen = [
   },
 ] as const
 
+type NavItem = { href: string; label: string; className?: string }
+
+const PRIMARY_NAV: NavItem[] = [
+  { href: '#', label: 'New & Featured' },
+  { href: '#', label: 'Men' },
+  { href: '#', label: 'Women' },
+  { href: '#', label: 'Kids' },
+  { href: '#', label: 'Sale', className: 'text-[16px] leading-normal' },
+  { href: '#', label: 'SNKRS', className: 'text-[16px] leading-normal' },
+]
+
 function NikeMark({ className }: { className?: string }) {
   return (
     <svg
@@ -119,7 +132,7 @@ function NikeCarouselNav({
   const { scrollPrev, scrollNext, canScrollPrev, canScrollNext } = useCarousel()
 
   return (
-    <div className="flex items-center gap-[12.375px]">
+    <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-[12.375px]">
       {shopLabel ? (
         <span className="text-[15px] font-medium leading-[1.6] text-[#111111]">
           {shopLabel}
@@ -221,7 +234,7 @@ function WideImageStory({
           height={700}
         />
       </div>
-      <div className="mx-auto mt-12 w-full max-w-[1008px] text-center">
+      <div className="mx-auto mt-8 w-full max-w-[1008px] px-2 text-center sm:mt-12 sm:px-0">
         {kicker ? (
           <p className="text-[15px] font-medium leading-[1.6] text-[#111111]">
             {kicker}
@@ -232,7 +245,7 @@ function WideImageStory({
         >
           {title}
         </h3>
-        <p className="mx-auto mt-6 max-w-[531px] px-4 text-[15px] font-normal leading-[1.6] text-[#111111]">
+        <p className="mx-auto mt-6 max-w-[531px] px-2 text-[15px] font-normal leading-relaxed text-[#111111] sm:px-4 sm:leading-[1.6]">
           {description}
         </p>
         <div className="mt-9 flex justify-center">
@@ -251,7 +264,7 @@ function WideImageStory({
 function NikeFooter() {
   return (
     <footer className="bg-[#111111] text-[#FFFFFF]">
-      <div className="mx-auto max-w-[1440px] px-[34px] pb-10 pt-10">
+      <div className="mx-auto max-w-[1440px] px-4 pb-10 pt-10 sm:px-[34px]">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-x-12">
           <div className="space-y-0">
             {[
@@ -374,6 +387,22 @@ function NikeFooter() {
 }
 
 export default function NikeLanding() {
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
+
+  useEffect(() => {
+    if (!mobileNavOpen) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileNavOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prev
+    }
+  }, [mobileNavOpen])
+
   return (
     <div className="bg-[#FFFFFF] font-['Helvetica_Neue',Helvetica,Arial,sans-serif] text-[#111111] antialiased">
       <a
@@ -382,112 +411,161 @@ export default function NikeLanding() {
       >
         Skip to main content
       </a>
-      <header>
-        <div className="mx-auto flex h-9 max-w-[1440px] items-center justify-between px-12">
-          <NikeMark className="size-6 text-[#111111]" />
-          <div className="flex items-center">
-            <div className="flex items-center gap-[15.375px] py-2.5 pl-3 pr-[6.125px] text-[11px] font-medium leading-[1.273] text-[#111111]">
-              <a className="hover:opacity-70" href="#">
-                Find a Store
-              </a>
-              <span className="text-xs font-normal leading-[1.167] text-[#111111]">
-                |
-              </span>
-              <a className="hover:opacity-70" href="#">
-                Help
-              </a>
-              <span className="text-xs font-normal leading-[1.167] text-[#111111]">
-                |
-              </span>
-            </div>
-            <div className="flex h-9 w-[122.5px] items-center justify-center gap-3 px-2 text-[11px] font-medium leading-[1.273] text-[#111111]">
-              <a className="hover:opacity-70" href="#">
-                Join Us
-              </a>
+      <header className="relative z-20 bg-[#FFFFFF] [&_a]:!text-[#111111] [&_a]:no-underline hover:[&_a]:opacity-70">
+        {/* Desktop utility bar */}
+        <div className="mx-auto hidden h-9 max-w-[1440px] items-center justify-between px-6 lg:flex lg:px-12">
+          <NikeMark className="size-6 shrink-0 text-[#111111]" />
+          <div className="flex min-w-0 items-center">
+            <div className="flex items-center gap-[15.375px] py-2.5 pl-3 pr-[6.125px] text-[11px] font-medium leading-[1.273]">
+              <a href="#">Find a Store</a>
               <span className="text-xs font-normal leading-[1.167]">|</span>
-              <a className="text-center hover:opacity-70" href="#">
-                Sign In
-              </a>
+              <a href="#">Help</a>
+              <span className="text-xs font-normal leading-[1.167]">|</span>
+            </div>
+            <div className="flex h-9 items-center justify-center gap-3 px-2 text-[11px] font-medium leading-[1.273]">
+              <a href="#">Join Us</a>
+              <span className="text-xs font-normal leading-[1.167]">|</span>
+              <a href="#">Sign In</a>
             </div>
           </div>
         </div>
 
-        <div className="relative mx-auto flex h-[60px] max-w-[1440px] items-center px-12">
+        {/* Main nav row */}
+        <div className="relative mx-auto flex min-h-14 max-w-[1440px] items-center justify-between gap-3 px-4 py-2 lg:h-[60px] lg:px-12 lg:py-0">
+          <NikeMark className="size-6 shrink-0 text-[#111111] lg:hidden" />
+
           <nav
-            className="absolute left-1/2 top-1/2 flex max-w-[calc(100%-22rem)] -translate-x-1/2 -translate-y-1/2 flex-wrap justify-center gap-4 sm:gap-6 md:max-w-none text-[15px] font-medium leading-[1.6] text-[#111111]"
+            className="absolute left-1/2 top-1/2 hidden min-w-0 -translate-x-1/2 -translate-y-1/2 gap-6 text-[15px] font-medium leading-[1.6] lg:flex"
             aria-label="Primary"
           >
-            <a className="hover:opacity-70" href="#">
-              New &amp; Featured
-            </a>
-            <a className="hover:opacity-70" href="#">
-              Men
-            </a>
-            <a className="hover:opacity-70" href="#">
-              Women
-            </a>
-            <a className="hover:opacity-70" href="#">
-              Kids
-            </a>
-            <a className="text-[16px] leading-normal hover:opacity-70" href="#">
-              Sale
-            </a>
-            <a className="text-[16px] leading-normal hover:opacity-70" href="#">
-              SNKRS
-            </a>
+            {PRIMARY_NAV.map(({ href, label, className: linkCls }) => (
+              <a
+                key={label}
+                href={href}
+                className={linkCls ?? 'text-[15px] leading-[1.6]'}
+              >
+                {label}
+              </a>
+            ))}
           </nav>
-          <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
+
+          <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-3">
             <div
-              className="hidden h-10 w-[180px] items-center rounded-[100px] bg-[#F5F5F5] pl-12 sm:flex"
+              className="hidden h-10 w-[180px] items-center rounded-[100px] bg-[#F5F5F5] pl-12 lg:flex"
               role="search"
             >
               <span className="text-[15px] font-medium leading-[1.221] text-[#CCCCCC]">
                 Search
               </span>
             </div>
-            <div className="flex items-center gap-2 py-3 sm:gap-3">
+            <div className="flex items-center gap-0.5 sm:gap-2">
               <button
                 type="button"
-                className="rounded-full p-1.5 hover:bg-[#F5F5F5]"
+                className="rounded-full p-1.5 text-[#111111] hover:bg-[#F5F5F5]"
                 aria-label="Favorites"
               >
                 <Heart className="size-6" strokeWidth={1.5} />
               </button>
               <button
                 type="button"
-                className="rounded-full p-1.5 hover:bg-[#F5F5F5]"
+                className="rounded-full p-1.5 text-[#111111] hover:bg-[#F5F5F5]"
                 aria-label="Bag"
               >
                 <ShoppingBag className="size-6" strokeWidth={1.5} />
               </button>
               <button
                 type="button"
-                className="rounded-full p-1.5 hover:bg-[#F5F5F5]"
-                aria-label="Menu"
+                className="rounded-full p-1.5 text-[#111111] hover:bg-[#F5F5F5] lg:hidden"
+                aria-label="Open menu"
+                aria-expanded={mobileNavOpen}
+                onClick={() => setMobileNavOpen(true)}
               >
                 <Menu className="size-6" strokeWidth={1.5} />
               </button>
             </div>
           </div>
         </div>
+
+        {mobileNavOpen ? (
+          <>
+            <div
+              className="fixed inset-0 z-40 cursor-default bg-[#111111]/40 lg:hidden"
+              aria-hidden
+              onClick={() => setMobileNavOpen(false)}
+              role="presentation"
+            />
+            <div
+              className="fixed inset-y-0 right-0 z-50 flex w-[min(100%,20rem)] flex-col bg-[#FFFFFF] shadow-xl lg:hidden"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Navigation menu"
+            >
+              <div className="flex items-center justify-between border-b border-[#E5E5E5] px-4 py-3">
+                <span className="text-[15px] font-medium">Menu</span>
+                <button
+                  type="button"
+                  className="rounded-full p-2 text-[#111111] hover:bg-[#F5F5F5]"
+                  aria-label="Close menu"
+                  onClick={() => setMobileNavOpen(false)}
+                >
+                  <X className="size-6" strokeWidth={1.5} />
+                </button>
+              </div>
+              <nav
+                className="flex flex-col gap-1 px-4 py-4 text-[15px] font-medium leading-[1.6] [&_a]:block [&_a]:rounded-md [&_a]:px-3 [&_a]:py-3 [&_a]:hover:bg-[#F5F5F5]"
+                aria-label="Primary"
+              >
+                {PRIMARY_NAV.map(({ href, label, className: linkCls }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    className={linkCls ?? 'text-[15px] leading-[1.6]'}
+                    onClick={() => setMobileNavOpen(false)}
+                  >
+                    {label}
+                  </a>
+                ))}
+              </nav>
+              <div className="mt-auto border-t border-[#E5E5E5] px-4 py-4 text-[11px] font-medium leading-relaxed">
+                <div className="flex flex-col gap-2">
+                  <a href="#" onClick={() => setMobileNavOpen(false)}>
+                    Find a Store
+                  </a>
+                  <a href="#" onClick={() => setMobileNavOpen(false)}>
+                    Help
+                  </a>
+                  <a href="#" onClick={() => setMobileNavOpen(false)}>
+                    Join Us
+                  </a>
+                  <a href="#" onClick={() => setMobileNavOpen(false)}>
+                    Sign In
+                  </a>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : null}
       </header>
 
       <div
-        className="flex h-[58px] flex-col items-center justify-center bg-[#F5F5F5] shadow-[inset_0_-1px_0_0_#E5E5E5]"
+        className="relative z-10 flex min-h-[58px] flex-col items-center justify-center bg-[#F5F5F5] px-4 py-2 shadow-[inset_0_-1px_0_0_#E5E5E5]"
         role="region"
         aria-label="Nike app promotion"
       >
-        <p className="text-[15px] font-medium leading-[1.067] text-[#111111]">
+        <p className="text-center text-[15px] font-medium leading-snug text-[#111111]">
           Hello Nike App
         </p>
-        <p className="max-w-[320px] px-[11px] text-center text-[11px] font-normal leading-[2.182] text-[#111111] sm:max-w-none">
+        <p className="mt-0.5 max-w-md px-2 text-center text-[11px] font-normal leading-relaxed text-[#111111]">
           Download the app to access everything Nike. Get Your Great
         </p>
       </div>
 
-      <main id="main" className="mx-auto max-w-[1440px] px-12">
+      <main
+        id="main"
+        className="mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-12"
+      >
         <section className="mx-auto w-full max-w-[1344px]">
-          <div className="relative aspect-[1344/700] w-full overflow-hidden bg-[#F5F5F5]">
+          <div className="relative aspect-[1344/700] w-full min-h-[200px] overflow-hidden bg-[#F5F5F5] sm:min-h-0">
             <img
               src={IMG.hero}
               alt="Nike Air Max Pulse on a vibrant background"
@@ -497,14 +575,14 @@ export default function NikeLanding() {
             />
           </div>
 
-          <div className="mx-auto mt-12 w-full max-w-[1008px] text-center">
+          <div className="mx-auto mt-8 w-full max-w-[1008px] px-1 text-center sm:mt-12 sm:px-0">
             <p className="text-[15px] font-medium leading-[1.6] text-[#111111]">
               First Look
             </p>
-            <h1 className="mt-1 text-[56px] font-medium uppercase leading-[1.071] tracking-normal text-[#111111]">
+            <h1 className="mt-1 text-3xl font-medium uppercase leading-[1.08] tracking-normal text-[#111111] sm:text-4xl md:text-5xl lg:text-[56px] lg:leading-[1.071]">
               Nike Air Max Pulse
             </h1>
-            <p className="mx-auto mt-7 max-w-[512px] px-4 text-[15px] font-normal leading-[1.6] text-[#111111] lg:max-w-none lg:px-[248px]">
+            <p className="mx-auto mt-6 max-w-[512px] px-1 text-[15px] font-normal leading-relaxed text-[#111111] sm:mt-7 sm:px-4 lg:max-w-none lg:px-[248px] lg:leading-[1.6]">
               Extreme comfort. Hyper durable. Max volume. Introducing the Air
               Max Pulse —designed to push you past your limits and help you go
               to the max.
@@ -528,7 +606,7 @@ export default function NikeLanding() {
 
         <section className="mx-auto mt-[84px] w-full max-w-[1344px]">
           <Carousel opts={{ align: 'start', containScroll: 'trimSnaps' }}>
-            <div className="mb-4 flex h-[52px] items-center justify-between pr-[7px]">
+            <div className="mb-4 flex min-h-[52px] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:pr-[7px]">
               <h2 className="text-[22px] font-medium leading-[1.273] text-[#111111]">
                 Best of Air Max
               </h2>
@@ -578,7 +656,7 @@ export default function NikeLanding() {
             image={IMG.featured}
             imageAlt="Runner wearing Nike shoes on a scenic road"
             title="STEP INTO WHAT FEELS GOOD"
-            titleClass="text-[54px] leading-[1.11]"
+            titleClass="text-2xl leading-[1.12] sm:text-4xl md:text-5xl lg:text-[54px] lg:leading-[1.11]"
             description="Cause everyone should know the feeling of running in that perfect pair."
             cta="Find Your Shoe"
             ctaClass="px-[22.5px] py-[7.5px] pr-[23.92px]"
@@ -635,7 +713,7 @@ export default function NikeLanding() {
             image={IMG.flight}
             imageAlt="Jordan Brand flight essentials"
             title="FLIGHT ESSENTIALS"
-            titleClass="text-[52px] leading-[1.15]"
+            titleClass="text-2xl leading-[1.12] sm:text-4xl md:text-5xl lg:text-[52px] lg:leading-[1.15]"
             description="Your built-to-last, all-week wears—but with style only Jordan Brand can deliver."
             cta="Shop"
             ctaClass="px-[21.5px] py-[7.5px] pr-[21.88px]"
@@ -644,7 +722,7 @@ export default function NikeLanding() {
 
         <section className="mx-auto mt-[84px] w-full max-w-[1356px] pb-6">
           <Carousel opts={{ align: 'start', containScroll: 'trimSnaps' }}>
-            <div className="mb-[25px] flex items-center justify-between gap-4">
+            <div className="mb-[25px] flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
               <h2 className="text-[23px] font-medium leading-[1.217] text-[#111111]">
                 The Essentials
               </h2>

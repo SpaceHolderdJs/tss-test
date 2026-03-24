@@ -220,7 +220,7 @@ function Header() {
     ] })
   ] }) });
 }
-const appCss = "/assets/styles-BA7hX5Dc.css";
+const appCss = "/assets/styles-poKenSr-.css";
 const THEME_INIT_SCRIPT = `(function(){try{var stored=window.localStorage.getItem('theme');var mode=(stored==='light'||stored==='dark'||stored==='auto')?stored:'auto';var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var resolved=mode==='auto'?(prefersDark?'dark':'light'):mode;var root=document.documentElement;root.classList.remove('light','dark');root.classList.add(resolved);if(mode==='auto'){root.removeAttribute('data-theme')}else{root.setAttribute('data-theme',mode)}root.style.colorScheme=resolved;}catch(e){}})();`;
 const Route$3 = createRootRoute({
   head: () => ({
@@ -268,7 +268,7 @@ function RootDocument({ children }) {
   ] });
 }
 const $$splitErrorComponentImporter = () => import("./users-DO7phkYD.mjs");
-const $$splitComponentImporter$2 = () => import("./users-DxG6XMuB.mjs");
+const $$splitComponentImporter$2 = () => import("./users-DttFQZdH.mjs");
 const Route$2 = createFileRoute("/users")({
   component: lazyRouteComponent($$splitComponentImporter$2, "component"),
   onEnter: () => {
@@ -287,7 +287,7 @@ const $$splitComponentImporter$1 = () => import("./about-CXr0J6fq.mjs");
 const Route$1 = createFileRoute("/about")({
   component: lazyRouteComponent($$splitComponentImporter$1, "component")
 });
-const $$splitComponentImporter = () => import("./index-DiVDkObK.mjs");
+const $$splitComponentImporter = () => import("./index-DnFhTw90.mjs");
 const Route = createFileRoute("/")({
   component: lazyRouteComponent($$splitComponentImporter, "component"),
   ssr: true

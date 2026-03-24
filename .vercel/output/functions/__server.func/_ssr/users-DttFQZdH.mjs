@@ -1,6 +1,6 @@
 import { j as jsxRuntimeExports } from "../_libs/react.mjs";
 import { c as cn } from "./utils-H80jjgLf.mjs";
-import { R as Route$2 } from "./router-Cw3LP8er.mjs";
+import { R as Route$2 } from "./router-B_xmr-iO.mjs";
 import "../_libs/clsx.mjs";
 import "../_libs/tailwind-merge.mjs";
 import "../_libs/tanstack__react-router.mjs";
